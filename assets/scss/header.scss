@@ -1,0 +1,11 @@
+nav{
+    display: flex;
+    color: rgb(242, 242, 242);
+    font-family: "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    background-color: rgb(0, 111, 201);
+    li  { display: inline-block; }
+      
+}

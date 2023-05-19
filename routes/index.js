@@ -9,10 +9,8 @@ router.get('/',homeController.home);
 
 //navigate /users to users.js
 //same you can do for other urls
-router.use('/users',require('./users'))
-
-
-
+router.use('/users',require('./users'));
+router.use('/posts',require('./posts'));
 
 //check, message
 console.log('router loaded!!')
