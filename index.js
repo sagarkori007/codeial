@@ -8,6 +8,9 @@ const passport = require('passport');
 const passport_local = require('./config/passport-local-strategy');
 const MongoStore = require('connect-mongo')(session);
 const sassMiddleware = require('node-sass-middleware');
+const flash = require('connect-flash');
+const customMware = require('./config/middleware');
+
 const port = 8000;
 
 //sass to convert scss into css
@@ -70,6 +73,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(passport.setAuthenticatedUser);
+app.use(flash());
+app.use(customMware.setFlash);
 
 
 //middle wear, loading up the router
