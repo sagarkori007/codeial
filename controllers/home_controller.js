@@ -1,5 +1,6 @@
 //controller - navigates the request 
 const Post = require('../models/post');
+const User = require('../models/user');
 
 module.exports.home = function(req,res){
     // .end to print in the page
@@ -12,16 +13,24 @@ module.exports.home = function(req,res){
     // });
 
     //post accumulation, populate the user
-    Post.find().populate('user')
-    .then((result)=>{
-        return res.render('home',{
-            title:"Codeial | Home",
-            posts: result
+    Post.find({})
+    .populate('user')
+    .populate({
+        path: 'comments',
+        populate: {
+            path: 'user'
+        }
+    })
+    .exec(function(err, posts){
+
+        User.find({},function(err,user){
+            return res.render('home', {
+                title: "Codeial | Home",
+                posts:  posts,
+                all_users: user
+            });
+
         });
-    })
-    .catch((error)=>{
-        console.log('Error in fetching posts',error);
-        return res.redirect('back');
-    })
+    });
 
 };

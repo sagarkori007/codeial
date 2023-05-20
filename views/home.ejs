@@ -1,27 +1,37 @@
 <!-- ejs need ejs installed to render the file -->
+<link rel="stylesheet" href="/css/home.css">
 
-<body>
-<section class="feed-post">
-    <h4>Posts</h4>
-    <!-- if user is signed in then only view -->
-    <%if(locals.user) {%>
-    <form action="/posts/create" id="new-post-form" method="post">
-        <textarea name="content" required id="" cols="30" rows="10"></textarea>
-        <input type="submit" value="post">
-    </form>
-    <div id="posts-list-container">
-        <ul>
-            <%for (post of posts){%>
-                <li>
-                    <%=post.content %>
-                    <br>
-                    <small>
-                        <%=post.user.name %>
-                    </small>
-                </li>
-            <% }%>
-        </ul>
-    </div>
-    <%}%>
-</section>
-</body>
+<div id="home-container">
+
+    <section id="feed-post">
+        <h4>Posts</h4>
+        <!-- if user is signed in then only view -->
+        <%if(locals.user) {%>
+        <form action="/posts/create" id="new-post-form" method="post">
+            <textarea name="content" required id="" cols="20" rows="5"></textarea>
+            <input type="submit" value="post">
+        </form>
+        <%}%>
+        <div id="posts-list-container">
+            <ul>
+                <%for (post of posts){%>
+    
+                    <%- include('_post') -%>
+    
+                <% }%>
+            </ul>
+        </div>
+        
+    </section>
+
+    <section id="user-friend">
+        <h4>Friends</h4>
+        <%for(u of all_users){%>
+            <p>
+                <a href="/users/profile/<%=u.id%>"><%=u.name%></a>
+            </p>
+        <%}%>
+    </section>
+    
+</div>
+

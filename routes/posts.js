@@ -5,4 +5,5 @@ const passport = require('passport');
 
 //only if user is authenticated it will go to next process
 router.post('/create',passport.checkAuthentication,postController.create);
+router.get('/destroy/:id',passport.checkAuthentication,postController.destroy);
 module.exports = router;

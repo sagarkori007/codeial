@@ -11,6 +11,7 @@ router.get('/',homeController.home);
 //same you can do for other urls
 router.use('/users',require('./users'));
 router.use('/posts',require('./posts'));
+router.use('/comments',require('./comments'));
 
 //check, message
 console.log('router loaded!!')
