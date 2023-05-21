@@ -31,6 +31,7 @@ app.use(cookie_parser());
 
 //set static file
 app.use(express.static('./assets'));
+app.use('/uploads', express.static(__dirname + '/uploads'));
 //for layout and it should be before the router
 app.use(express_layout);
 //extract style and scripts from the subpage into the layout

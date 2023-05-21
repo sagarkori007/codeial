@@ -2,6 +2,8 @@
 
 //user model
 const User = require('../models/user');
+const fs = require('fs');
+const path = require('path');
 
 
 module.exports.profile = function(req,res ){
@@ -13,18 +15,57 @@ module.exports.profile = function(req,res ){
     });
 };
 
-module.exports.update = function(req,res){
+module.exports.update = async function(req,res){
     console.log('Profile update!!')
+    // if (req.user.id == req.params.id){
+    //     console.log('updating the user',req.user.name);
+    //     User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
+    //         req.flash('success','Profile updated');
+    //         return res.redirect('back');
+    //     });
+    // } else {
+    //     req.flash('error','Error in Profile updating!');
+    //     return res.status(401).send('Unauthorized');
+    // }
+
+    //changed code due to the multer - file uploading 
     if (req.user.id == req.params.id){
-        console.log('updating the user',req.user.name);
-        User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
-            req.flash('success','Profile updated');
-            return res.redirect('back');
-        });
+        try{
+            let user = await User.findByIdAndUpdate(req.params.id);
+            //multer - headache concept 
+            User.uploadedAvatar(req, res, function(err){
+                if (err){
+                    console.log(err);
+                }
+
+                user.name = req.body.name;
+                user.email = req.body.email;
+
+                if (req.file){
+                    // this is saving the uploaded file into the avatar field in the user
+                    if (user.avatar){
+                        fs.unlinkSync(path.join(__dirname,'..',user.avatar));
+                    }
+
+                    user.avatar = User.avatarPath + '/' + req.file.filename;
+                }
+                user.save();
+                return res.redirect('back');
+            });
+
+
+        } catch(error) {
+            req.flash('error',error);
+            return;
+        }
+
+        
     } else {
         req.flash('error','Error in Profile updating!');
         return res.status(401).send('Unauthorized');
     }
+
+
 }
 
 module.exports.sign_up = function(req,res ){
