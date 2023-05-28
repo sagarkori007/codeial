@@ -43,7 +43,7 @@ module.exports.update = async function(req,res){
 
                 if (req.file){
                     // this is saving the uploaded file into the avatar field in the user
-                    if (user.avatar){
+                    if (user.avatar && fs.existsSync(path.join(__dirname,'..',user.avatar))){
                         fs.unlinkSync(path.join(__dirname,'..',user.avatar));
                     }
 
